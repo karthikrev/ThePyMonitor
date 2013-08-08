@@ -1,4 +1,14 @@
 ThePyMonitor
 ============
 
-Yet another nms tool
+Yet another NMS tool
+Configure through python scripts
+
+
+
+Architecture:
+------------
+
+Major components
+
+1. Scheduler
