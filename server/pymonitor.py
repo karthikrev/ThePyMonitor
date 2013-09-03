@@ -1,6 +1,7 @@
 import multiprocessing
 from utils import Oscillator
-from scheduler import Scheduler, Dispatcher
+from scheduler import Scheduler
+from dispatcher import Dispatcher
 
 
 def main():

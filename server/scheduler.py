@@ -1,36 +1,19 @@
 import multiprocessing
 import logging
-from managers import Connmgr, Datamgr
+from datamanager import Datamanager
 
-class Scheduler(multiprocessing.Process):           # TODO: Keyboardinterrupt handle it
-    def __init__(self, event, queue):
-        self.event = event
-        self.dataprovider = Datamgr()
-        self.queue = queue
-        super(Scheduler, self).__init__()
+class Scheduler(multiprocessing.Process):           
+    def __init__(self, event, queue):               # Args: 1. Event object and  2. Queue
+        self.event = event                          # Event object with which Scheduler is poked by oscillator every min
+        self.dataprovider = Datamanager()               # The interface to configurations through sqlite/mysql/python script/xml/json/nagios model
+        self.queue = queue                          # The Queue
+        super(Scheduler, self).__init__()           
 
     def run(self):
         try:
             while True:
-                self.event.wait()
-                for task in self.dataprovider.probs_to_run_now():
-                    self.queue.put(task)
+                self.event.wait()                   # Wait till oscillator pokes me
+                for task in self.dataprovider.probs_to_run_now():	# Read the configs and check what to do now
+                    self.queue.put(task)            # If anything is to be monitored now, add to Queue
         except KeyboardInterrupt:
             pass
-
-
-class Dispatcher(multiprocessing.Process):      # TODO: Keyboardinterrupt handle it
-    def __init__(self, queue):
-        self.queue = queue
-        self.connection = Connmgr()
-        super(Dispatcher, self).__init__()
-
-    def run(self):
-        while True:
-            next_task = self.queue.get()
-            if next_task is None:
-                break
-            else:
-                print next_task
-                self.connection.call()      # Get hostname and port of client to connect to from sqlite
-
