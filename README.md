@@ -2,10 +2,11 @@ ThePyMonitor
 ============
 
 Python based monitoring system.
-
+------------------------------
 
 
 Features:
+--------
 1. Pluggable format of input.
     ie you can use xml or json or nagios_format or another python program to input your configurations ( to monitor your servers/services )
 2. Pluggable protocol.
@@ -14,11 +15,13 @@ Features:
     ie Use the probed data to graph or email alert or IM alert or send to prediction_tools
 
 Architectural diagram:
-    https://github.com/karthikrev/desktop-notify.git
+---------------------
+https://docs.google.com/drawings/d/1ygof8i1qVcabZBiHoPN7tNNkSpbVaVYN6zy6mGHXlnU
+    
 
 
 Overall flow:
-
+------------
 1. Configurations are present in (sqlite | xml | mysql | ...) .
 2. Reading configs Server knows WHOM to monitor WHAT and WHEN.
 3. Server makes an (xmlrpc|http|tcp|nrpe|zmq|.....) connection with a validating string to client and then the connection is closed.
